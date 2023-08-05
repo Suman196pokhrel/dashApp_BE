@@ -1,0 +1,5 @@
+__pycache__
+adminDashBackend
+.env
+Procfile
+docker-compose*.*
