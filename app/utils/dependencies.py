@@ -1,4 +1,7 @@
 from passlib.context import CryptContext
+from ..settings import settings
+
+
 
 
 
@@ -16,5 +19,11 @@ def get_hash(text: str):
     return pwd_context.hash(text)
 
 
-def verify_hash(plain_password, hashed_password):    
+def verify_hash(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
+
+
+
+# ----------------------------------------------------------------------------------------------------------
+
+

@@ -1,10 +1,8 @@
 from fastapi import FastAPI
 from .routers import authenticate
 from fastapi.middleware.cors import CORSMiddleware
-from passlib.context import CryptContext
 
 
-pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 
 app = FastAPI()
