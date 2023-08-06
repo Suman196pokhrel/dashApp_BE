@@ -45,4 +45,8 @@ class TokenData(BaseModel):
     email: str
 
 
+class ForGotEmail(BaseModel):
+    email:str
+
+
 

@@ -10,6 +10,11 @@ class Settings(BaseSettings):
     secret_key: str
     algorithm: str
     access_token_expire_minutes: int
+    mailgun_api_url:str
+    mailgun_public_api:str
+    mailgun_private_api:str
+    sender_email:str
+    otp_expires_minutes:int
 
     class Config:
         env_file=".env"

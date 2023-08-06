@@ -17,4 +17,15 @@ class User(Base):
     mobileNum = Column(String)
     password = Column(String, nullable=False)
     createdAt = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('NOW()'))
+
+
+
+class OTP(Base):
+    __tablename__="otp"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    value = Column(String,nullable=False)
+    expires_at = Column(String, nullable=False)
+
+    # user= relationship("User", back_populates="OTP")
     
