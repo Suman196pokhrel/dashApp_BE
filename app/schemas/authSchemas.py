@@ -48,5 +48,18 @@ class TokenData(BaseModel):
 class ForGotEmail(BaseModel):
     email:str
 
+class ForGotMobile(BaseModel):
+    mobile:str
+
+
+class OTPVALIDATE(BaseModel):
+    value:str
+    password:str
+    email:str
+
+
+class RESETPASS(BaseModel):
+    password:str
+
 
 
