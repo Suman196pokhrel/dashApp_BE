@@ -17,7 +17,7 @@ def calculate_otp_expiry(expires_after=5):
 
 
 
-async def send_otp_email(recipient_email, subject):
+async def send_otp_email(recipient_detail, subject):
     
     # Email data
     emailSender = settings.sender_email  # Replace with your sender email addres
@@ -31,7 +31,7 @@ async def send_otp_email(recipient_email, subject):
                 auth=("api", settings.mailgun_private_api),
                 data={
                     "from": emailSender,
-                    "to": recipient_email,
+                    "to": recipient_detail,
                     "subject": subject,
                     "text": text
                 }

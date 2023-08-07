@@ -88,77 +88,46 @@ def get_user(id:int, db:Session= Depends(get_db),current_user = Depends(get_curr
 
 
 @router.post("/forgotPw")
-async def forgot_password(otpMode:ForGotPw, db:Session=Depends(get_db)):
+async def forgot_password(otpMode: ForGotPw, db: Session = Depends(get_db)):
+
+
+    if otpMode.mode not in ['email', 'mobile']:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Selected Password Reset Method Not Allowed")
 
     if otpMode.mode == 'email':
-
-        email = otpMode.email
-
-        current_user = db.query(User).filter_by(email=email).first()
-        # # Check if the user already has an OTP
-        existing_otp = db.query(OTP).filter_by(user_id=current_user.id).first()
-
-        if existing_otp:
-            # Update the value of 'value' column
-            otpData = await send_otp_email(recipient_email=email, subject="DashApps Account Password Reset")
-            if otpData['status']:
-                existing_otp.value = get_hash(otpData['otp'])
-                existing_otp.expires_at = otpData['expires_at'].strftime('%Y-%m-%d %H:%M:%S.%f')
-                db.commit()
-                return {"status": f"Successfully sent password reset email to {email} and updated OTP value"}
-            else:
-                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Not able to send Emails")
-        else:
-            # Create a new OTP row
-            otpData = await send_otp_email(recipient_email=email, subject="DashApps Account Password Reset")
-            if otpData['status']:
-                hashed_otp = get_hash(otpData['otp'])
-                user_id = current_user.id
-                expires_at = otpData['expires_at'].strftime('%Y-%m-%d %H:%M:%S.%f')
-
-                new_otp_row = OTP(user_id=user_id, value=hashed_otp, expires_at=expires_at)
-                db.add(new_otp_row)
-                db.commit()
-                return {"status": f"Successfully sent password reset email to {email}"}
-            else:
-                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Not able to send Emails")
-    
-    elif otpMode.mode == 'mobile':
-
-        mobile = otpMode.mobile
-
-        current_user = db.query(User).filter_by(mobileNum=mobile).first()
-        # # Check if the user already has an OTP
-        existing_otp = db.query(OTP).filter_by(user_id=current_user.id).first()
-
-        if existing_otp:
-            # Update the value of 'value' column
-            otpData = await send_otp_mobile(recipient_mobile=mobile)
-            if otpData['status']:
-                existing_otp.value = get_hash(otpData['otp'])
-                existing_otp.expires_at = otpData['expires_at'].strftime('%Y-%m-%d %H:%M:%S.%f')
-                db.commit()
-                return {"status": f"Successfully sent password reset sms to {mobile} and updated OTP value"}
-            else:
-                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Not able to send sms")
-        else:
-            # Create a new OTP row
-            otpData = await send_otp_mobile(recipient_mobile=mobile)
-            if otpData['status']:
-                hashed_otp = get_hash(otpData['otp'])
-                user_id = current_user.id
-                expires_at = otpData['expires_at'].strftime('%Y-%m-%d %H:%M:%S.%f')
-
-                new_otp_row = OTP(user_id=user_id, value=hashed_otp, expires_at=expires_at)
-                db.add(new_otp_row)
-                db.commit()
-                return {"status": f"Successfully sent password reset sms to {mobile}"}
-            else:
-                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=otpData['message'])
-    
+        recipient_field = 'email'
+        send_otp_func = send_otp_email
     else:
+        recipient_field = 'mobileNum'
+        send_otp_func = send_otp_mobile
 
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Selected Password Reset Method Not Allowed")
+    recipient_value = getattr(otpMode, recipient_field)
+    current_user = db.query(User).filter_by(**{recipient_field: recipient_value}).first()
+    
+    if not current_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    existing_otp = db.query(OTP).filter_by(user_id=current_user.id).first()
+    
+    otp_data = await send_otp_func(recipient_detail=recipient_value)  # Change to recipient_email or recipient_mobile accordingly
+
+    if not otp_data['status']:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=otp_data['message'])
+
+    hashed_otp = get_hash(otp_data['otp'])
+    expires_at = otp_data['expires_at'].strftime('%Y-%m-%d %H:%M:%S.%f')
+
+    if existing_otp:
+        existing_otp.value = hashed_otp
+        existing_otp.expires_at = expires_at
+    else:
+        new_otp_row = OTP(user_id=current_user.id, value=hashed_otp, expires_at=expires_at)
+        db.add(new_otp_row)
+
+    db.commit()
+    
+    return {"status": f"Successfully sent password reset {'email' if otpMode.mode == 'email' else 'sms'} to {recipient_value}"}
+
 
 @router.post("/validateNewPw")
 async def validate_forgotPw_otp(otp:OTPVALIDATE,db:Session=Depends(get_db)):

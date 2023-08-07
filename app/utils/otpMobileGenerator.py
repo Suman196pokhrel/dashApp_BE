@@ -25,7 +25,7 @@ def calculate_otp_expiry(expires_after=5):
 
 
 
-async def send_otp_mobile(recipient_mobile):
+async def send_otp_mobile(recipient_detail):
 
     client = Client(settings.twilio_acc_sid,settings.twilio_auth_token)
     
@@ -34,10 +34,10 @@ async def send_otp_mobile(recipient_mobile):
     try:
         # Send SMS with OTP
         message =  client.messages.create(
-            body=f"Dash App, Here is your OTP for creating a new password: {otp}. This OTP will expire in {settings.otp_expires_minutes} minutes.",
+            body=f"Your DashApp verification code is {otp}. This OTP will expire in {settings.otp_expires_minutes} minutes.",
             # from_=settings.verified_number,
-            from_='+15188098597',
-            to=recipient_mobile
+            from_=settings.twilio_phone_number,
+            to=recipient_detail
         )
         return {"status":True, "otp":otp,"expires_at":calculate_otp_expiry(settings.otp_expires_minutes)}
     except Exception as e:

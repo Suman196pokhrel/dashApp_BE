@@ -48,7 +48,7 @@ class TokenData(BaseModel):
 class ForGotPw(BaseModel):
     mode:str
     email:str
-    mobile:str
+    mobileNum:str
 
 class ForGotMobile(BaseModel):
     mode:str

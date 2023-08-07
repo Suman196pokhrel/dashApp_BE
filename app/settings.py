@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     twilio_acc_sid:str
     twilio_auth_token:str
     verify_sid:str
-    verified_number:str
+    twilio_phone_number:str
     recipient_number:str
 
 
