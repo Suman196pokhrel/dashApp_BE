@@ -15,9 +15,12 @@ class Settings(BaseSettings):
     mailgun_private_api:str
     sender_email:str
     otp_expires_minutes:int
-    vonage_api_key:str
-    vonage_api_secret:str
-    vonage_sender_id:str
+    twilio_acc_sid:str
+    twilio_auth_token:str
+    verify_sid:str
+    verified_number:str
+    recipient_number:str
+
 
     
     class Config:

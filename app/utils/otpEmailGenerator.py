@@ -36,7 +36,7 @@ async def send_otp_email(recipient_email, subject):
                     "text": text
                 }
             )
-            return {"status":True, "otp":otp,"expires_at":calculate_otp_expiry(2)}
+            return {"status":True, "otp":otp,"expires_at":calculate_otp_expiry(settings.otp_expires_minutes)}
 
 
         except Exception as e:

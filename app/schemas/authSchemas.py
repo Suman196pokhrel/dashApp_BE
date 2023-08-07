@@ -45,10 +45,14 @@ class TokenData(BaseModel):
     email: str
 
 
-class ForGotEmail(BaseModel):
+class ForGotPw(BaseModel):
+    mode:str
     email:str
+    mobile:str
 
 class ForGotMobile(BaseModel):
+    mode:str
+    email:str
     mobile:str
 
 

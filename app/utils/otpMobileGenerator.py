@@ -6,13 +6,10 @@ import random
 import string
 import httpx
 from datetime import datetime, timedelta
-# from vonage import Client
+from twilio.rest import Client
 
 
 
-
-
-# vonage_client = Client(key=settings.vonage_api_key, secret=settings.vonage_api_secret)
 
 
 
@@ -28,24 +25,25 @@ def calculate_otp_expiry(expires_after=5):
 
 
 
-# async def send_otp_mobile(recipient_mobile):
+async def send_otp_mobile(recipient_mobile):
+
+    client = Client(settings.twilio_acc_sid,settings.twilio_auth_token)
     
-#     # Email data
-#     emailSender = settings.sender_email  # Replace with your sender email addres
-#      # Generate a random OTP
-#     otp = ''.join(random.choices(string.digits, k=6)) 
+     # Generate a random OTP
+    otp = ''.join(random.choices(string.digits, k=6)) 
+    try:
+        # Send SMS with OTP
+        message =  client.messages.create(
+            body=f"Dash App, Here is your OTP for creating a new password: {otp}. This OTP will expire in {settings.otp_expires_minutes} minutes.",
+            # from_=settings.verified_number,
+            from_='+15188098597',
+            to=recipient_mobile
+        )
+        return {"status":True, "otp":otp,"expires_at":calculate_otp_expiry(settings.otp_expires_minutes)}
+    except Exception as e:
+        print(e)
+        return {"status":False, "message":str(e)}
 
-#     # Send the OTP via SMS
-#     response = vonage_client.send_message({
-#         "from": settings.vonage_sender_id,
-#         "to": recipient_mobile,
-#         "text": f"Dash App , Your OTP for generating new password is : {otp}, Remember , the otp will expire in {calculate_otp_expiry(5)} minutes"
-#     })
-
-#     if response['messages'][0]['status'] == '0':
-#         return {"status": True,"otp":otp,"expires_at":calculate_otp_expiry(2)}
-#     else:
-#         raise HTTPException(status_code=500, detail="Failed to send OTP")
 
 
 
