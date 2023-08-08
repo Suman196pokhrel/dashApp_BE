@@ -17,7 +17,7 @@ def calculate_otp_expiry(expires_after=5):
 
 
 
-async def send_otp_email(recipient_detail, subject):
+async def send_otp_email(recipient_detail):
     
     # Email data
     emailSender = settings.sender_email  # Replace with your sender email addres
@@ -32,7 +32,7 @@ async def send_otp_email(recipient_detail, subject):
                 data={
                     "from": emailSender,
                     "to": recipient_detail,
-                    "subject": subject,
+                    "subject": "DashApp Account Password Reset",
                     "text": text
                 }
             )

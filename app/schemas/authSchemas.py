@@ -59,7 +59,8 @@ class ForGotMobile(BaseModel):
 class OTPVALIDATE(BaseModel):
     value:str
     password:str
-    email:str
+    mode:str
+    identifier:str
 
 
 class RESETPASS(BaseModel):

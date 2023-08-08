@@ -27,6 +27,8 @@ def calculate_otp_expiry(expires_after=5):
 
 async def send_otp_mobile(recipient_detail):
 
+
+    print("RECIPIENT_DETAIL +> ", recipient_detail)
     client = Client(settings.twilio_acc_sid,settings.twilio_auth_token)
     
      # Generate a random OTP
@@ -39,6 +41,9 @@ async def send_otp_mobile(recipient_detail):
             from_=settings.twilio_phone_number,
             to=recipient_detail
         )
+           
+        
+        print("TWILIO RESPONSE__++>> , ", message)
         return {"status":True, "otp":otp,"expires_at":calculate_otp_expiry(settings.otp_expires_minutes)}
     except Exception as e:
         print(e)

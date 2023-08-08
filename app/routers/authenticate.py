@@ -91,7 +91,7 @@ def get_user(id:int, db:Session= Depends(get_db),current_user = Depends(get_curr
 async def forgot_password(otpMode: ForGotPw, db: Session = Depends(get_db)):
 
 
-    if otpMode.mode not in ['email', 'mobile']:
+    if otpMode.mode not in ["email", "mobile"]:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Selected Password Reset Method Not Allowed")
 
     if otpMode.mode == 'email':
@@ -132,44 +132,53 @@ async def forgot_password(otpMode: ForGotPw, db: Session = Depends(get_db)):
 @router.post("/validateNewPw")
 async def validate_forgotPw_otp(otp:OTPVALIDATE,db:Session=Depends(get_db)):
 
-    current_user = db.query(User).filter_by(email=otp.email).first()
+    if otp.mode not in ["email", "mobile"]:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Selected Password Reset Method Not Allowed")
 
-    # CHECK IF THAT USER EXISTS OR NOT 
-    if current_user:
+    
+    if otp.mode == 'email':
+        recipient_field = 'email'
+    else:
+        recipient_field = 'mobileNum'
 
-        existing_row =  db.query(OTP).filter_by(user_id=current_user.id).first() 
-        
+    recipient_value = otp.identifier
+    current_user = db.query(User).filter_by(**{recipient_field: recipient_value}).first()
 
 
-        if existing_row:
-            if existing_row.user_id == current_user.id and verify_hash(otp.value, existing_row.value):
-                # Check if OTP time has expired 
-                expires_at = datetime.strptime(existing_row.expires_at, '%Y-%m-%d %H:%M:%S.%f')
-                valid_otp = expires_at <= datetime.utcnow()
-                # print("OTP VALID VALUE => ", valid_otp, expires_at, datetime.utcnow())
-                if not valid_otp:
+    if not current_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-                    # Setting New User pASsword 
-                    current_user.password = get_hash(otp.password)
-                    db.commit()
+    
+    existing_row = db.query(OTP).filter_by(user_id=current_user.id).first()
 
-                    # Deleting row of validated otp 
-                    db.delete(existing_row)
-                    db.commit()
-                    return {
-                    "message" : "Valid OTP"
-                    }
-                else:
-                    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="OTP Expired")
-                
 
+    if existing_row:
+        if existing_row.user_id == current_user.id and verify_hash(otp.value, existing_row.value):
+            # Check if OTP time has expired 
+            expires_at = datetime.strptime(existing_row.expires_at, '%Y-%m-%d %H:%M:%S.%f')
+            valid_otp = expires_at >= datetime.utcnow()
+            # print("OTP VALID VALUE => ", valid_otp, expires_at, datetime.utcnow())
+            if valid_otp:
+                # Setting New User pASsword 
+                current_user.password = get_hash(otp.password)
+                db.commit()
+
+                # Deleting row of validated otp 
+                db.delete(existing_row)
+                db.commit()
+                return {
+                "message" : "Valid OTP"
+                }
             else:
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Wrong OTP")
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="OTP Expired")
             
 
         else:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No OTP generated")
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Wrong OTP")
+        
 
     else:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="User with that email is not registered")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No OTP generated")
+
+
 
