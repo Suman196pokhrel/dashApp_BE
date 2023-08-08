@@ -3,3 +3,4 @@ adminDashBackend
 .env
 Procfile
 docker-compose*.*
+alembic.ini
