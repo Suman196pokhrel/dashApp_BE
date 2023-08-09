@@ -13,7 +13,7 @@ from app.database import get_db, Base
 
 # TEST DATABASE SETTING
 
-SQLALCHEMY_TEST_DATABASE_URL = f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.database_hostname}:{settings.database_port}/{settings.POSTGRES_DB}_test"
+SQLALCHEMY_TEST_DATABASE_URL = f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.DATABASE_HOSTNAME}:{settings.DATABASE_PORT}/{settings.POSTGRES_DB}_test"
 engine = create_engine(SQLALCHEMY_TEST_DATABASE_URL)
 TestingSessionLocal = sessionmaker( autoflush=False, bind=engine)
 
