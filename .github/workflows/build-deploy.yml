@@ -71,5 +71,5 @@ jobs:
 
       - name: Build and push docker image to docker hub
         run: |
-          docker compose -f docker-compose-prod.yml build --build-arg IMAGE_TAG=${{ secrets.DOCKER_HUB_USERNAME }}/dashappvone:latest
-          docker compose -f docker-compose-prod.yml push
+          docker compose -f ./docker-compose-prod.yml build --build-arg IMAGE_TAG=${{ secrets.DOCKER_HUB_USERNAME }}/dashappvone:latest
+          docker compose -f ./docker-compose-prod.yml push
