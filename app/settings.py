@@ -20,8 +20,9 @@ class Settings(BaseSettings):
     VERIFY_SID:str
     TWILIO_PHONE_NUMBER:str
     RECIPIENT_NUMBER:str
-    DOCKER_HUB_ACCESS_TOKEN:str
     DOCKER_HUB_USERNAME:str
+    DOCKER_HUB_ACCESS_TOKEN:str
+   
 
 
     
