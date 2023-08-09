@@ -70,9 +70,6 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build and push docker image to docker hub
-        uses: docker/build-push-action@v4
-        with:
-          context: ./
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashappvone:latest
+        run: |
+          docker compose -f docker-compose-prod.yml build --build-arg IMAGE_TAG=${{ secrets.DOCKER_HUB_USERNAME }}/dashappvone:latest
+          docker compose -f docker-compose-prod.yml push
