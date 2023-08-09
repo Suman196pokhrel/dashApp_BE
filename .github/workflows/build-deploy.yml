@@ -1,0 +1,16 @@
+name: Build and Deploy Dash App
+
+on:
+  push:
+    branches:
+      - "main"
+
+
+jobs:
+  JOB1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pulling GitHub Repo
+        uses: actions/checkout@v3
+      - name: Say Hello To Suman
+        run: echo "Hello Suman"
