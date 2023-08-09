@@ -26,6 +26,8 @@ jobs:
       VERIFY_SID: ${{secrets.VERIFY_SID}}
       TWILIO_PHONE_NUMBER: ${{secrets.TWILIO_PHONE_NUMBER}}
       RECIPIENT_NUMBER: ${{secrets.RECIPIENT_NUMBER}}
+      DOCKER_HUB_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
+      DOCKER_HUB_ACCESS_TOKEN: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
 
     services:
       postgres:
@@ -74,6 +76,3 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashappvone:latest
-
-      - name: Image digest
-        run: echo ${{steps.docker_build.outputs.digest}}
