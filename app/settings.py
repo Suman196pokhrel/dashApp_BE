@@ -4,9 +4,9 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     database_hostname: str
     database_port: str
-    database_password: str
-    database_name: str
-    database_username: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+    POSTGRES_USER: str
     secret_key: str
     algorithm: str
     access_token_expire_minutes: int
