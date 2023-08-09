@@ -26,6 +26,6 @@ new_User_failuer = {
   "email": "emusk196@gmail.com",
   "dob": "2011-10-25",
   "mobileNum": "+977954811503249",
-  "password": "password"
+
 }
 
