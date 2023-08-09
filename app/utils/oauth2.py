@@ -11,9 +11,9 @@ from ..database import get_db
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")  # Provides token to getCurrentUser dependency on endpoints 
-SECRET_KEY = f"{settings.secret_key}"
-ALGORITHM = f"{settings.algorithm}"
-ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
+SECRET_KEY = f"{settings.SECRET_KEY}"
+ALGORITHM = f"{settings.ALGORITHM}"
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 
 
 

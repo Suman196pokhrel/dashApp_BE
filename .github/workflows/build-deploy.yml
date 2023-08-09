@@ -8,6 +8,27 @@ on:
 
 jobs:
   JOB1:
+    env:
+      DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
+      DATABASE_PORT: ${{secrets.DATABASE_PORT}}
+      POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+      POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+      POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
+      ALGORITHM: ${{secrets.ALGORITHM}}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
+      MAILGUN_API_URL: ${{secrets.MAILGUN_API_URL}}
+      MAILGUN_PUBLIC_API: ${{secrets.MAILGUN_PUBLIC_API}}
+      MAILGUN_PRIVATE_API: ${{secrets.MAILGUN_PRIVATE_API}}
+      SENDER_EMAIL: ${{secrets.SENDER_EMAIL}}
+      OTP_EXPIRES_MINUTES: ${{secrets.OTP_EXPIRES_MINUTES}}
+      TWILIO_ACC_SID: ${{secrets.TWILIO_ACC_SID}}
+      TWILIO_AUTH_TOKEN: ${{secrets.TWILIO_AUTH_TOKEN}}
+      VERIFY_SID: ${{secrets.VERIFY_SID}}
+      TWILIO_PHONE_NUMBER: ${{secrets.TWILIO_PHONE_NUMBER}}
+      RECIPIENT_NUMBER: ${{secrets.RECIPIENT_NUMBER}}
+
+
     runs-on: ubuntu-latest
     steps:
       - name: Pulling GitHub Repo

@@ -20,15 +20,15 @@ def calculate_otp_expiry(expires_after=5):
 async def send_otp_email(recipient_detail):
     
     # Email data
-    emailSender = settings.sender_email  # Replace with your sender email addres
+    emailSender = settings.SENDER_EMAIL  # Replace with your sender email addres
      # Generate a random OTP
     otp = ''.join(random.choices(string.digits, k=6)) 
     text =f"Here is your OTP for creating a new password: {otp}. This OTP will expire in {settings.otp_expires_minutes} minutes."
     async with httpx.AsyncClient() as client:
         try:
             response = await client.post(
-            settings.mailgun_api_url,
-                auth=("api", settings.mailgun_private_api),
+            settings.MAILGUN_API_URL,
+                auth=("api", settings.MAILGUN_PRIVATE_API),
                 data={
                     "from": emailSender,
                     "to": recipient_detail,
@@ -36,7 +36,7 @@ async def send_otp_email(recipient_detail):
                     "text": text
                 }
             )
-            return {"status":True, "otp":otp,"expires_at":calculate_otp_expiry(settings.otp_expires_minutes)}
+            return {"status":True, "otp":otp,"expires_at":calculate_otp_expiry(settings.OTP_EXPIRES_MINUTES)}
 
 
         except Exception as e:
