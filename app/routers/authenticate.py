@@ -43,6 +43,7 @@ def login(user_credentials:OAuth2PasswordRequestForm=Depends(), db: Session = De
 
 
     return {
+        "status":200,
         "access_token":access_token,
         "token_type":"bearer"
         }
@@ -63,6 +64,7 @@ def create_new_user(user:NEW_USER, db:Session=Depends(get_db)):
         db.commit()
         db.refresh(new_user)
         return {
+            "status":200,
             "message":"Successfully created new user",
             "new_user" : new_user
         }
