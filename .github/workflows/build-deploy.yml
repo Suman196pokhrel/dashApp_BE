@@ -12,7 +12,13 @@ jobs:
     steps:
       - name: Pulling GitHub Repo
         uses: actions/checkout@v3
-      - name: Say Hello To Suman
-        run: echo "Hello Suman"
-      - name: Say Hello To Pokhrel
-        run: echo "Hello Suman Pokhrel"
+      - name: Installing python version 3.9.17
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9.17'
+      - name: Upgrade pip
+        run: pyton -m pip install --upgrade pip
+      - name: Install Python Packages
+        run: pip install -r requirements.txt
+      
+        
