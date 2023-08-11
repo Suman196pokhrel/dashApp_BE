@@ -23,7 +23,7 @@ async def send_otp_email(recipient_detail):
     emailSender = settings.SENDER_EMAIL  # Replace with your sender email addres
      # Generate a random OTP
     otp = ''.join(random.choices(string.digits, k=6)) 
-    text =f"Here is your OTP for creating a new password: {otp}. This OTP will expire in {settings.otp_expires_minutes} minutes."
+    text =f"Here is your OTP for creating a new password: {otp}. This OTP will expire in {settings.OTP_EXPIRES_MINUTES} minutes."
     async with httpx.AsyncClient() as client:
         try:
             response = await client.post(

@@ -6,15 +6,10 @@ services:
       - postgres
     ports:
       - 8000:8000
-    volumes:
-      - ./:/dashapp:ro
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
     env_file:
       - ./.env
-
-    environment:
-      - database_hostname=postgres
 
   postgres:
     image: postgres
