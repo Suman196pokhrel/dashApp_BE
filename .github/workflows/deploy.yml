@@ -20,4 +20,4 @@ jobs:
           
       - name: SSH into Droplet and update
         run: |
-          ssh -o StrictHostKeyChecking=no -A root@64.227.166.179 "docker compose -f dashApp_BE/docker-compose-dev.yml down && sudo rm -rf dashApp_BE && git clone git@github.com:Suman196pokhrel/dashApp_BE.git && docker compose -f dashApp_BE/docker-compose-dev.yml up -d"
+          ssh -o StrictHostKeyChecking=no -A root@64.227.166.179 "docker compose -f dashApp_BE/docker-compose-dev.yml down && docker rmi dashapp_be-api && sudo rm -rf dashApp_BE && git clone git@github.com:Suman196pokhrel/dashApp_BE.git && docker compose -f dashApp_BE/docker-compose-dev.yml up -d"
