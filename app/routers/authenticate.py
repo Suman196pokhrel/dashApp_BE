@@ -16,6 +16,7 @@ import httpx
 import string
 from ..utils.otpEmailGenerator import send_otp_email
 from ..utils.otpMobileGenerator import send_otp_mobile
+from ..utils.otpEmailGmail import send_email_gmail
 from datetime import datetime
 
 router = APIRouter()
@@ -98,7 +99,7 @@ async def forgot_password(otpMode: ForGotPw, db: Session = Depends(get_db)):
 
     if otpMode.mode == 'email':
         recipient_field = 'email'
-        send_otp_func = send_otp_email
+        send_otp_func = send_email_gmail
     else:
         recipient_field = 'mobileNum'
         send_otp_func = send_otp_mobile
@@ -111,7 +112,7 @@ async def forgot_password(otpMode: ForGotPw, db: Session = Depends(get_db)):
 
     existing_otp = db.query(OTP).filter_by(user_id=current_user.id).first()
     
-    otp_data = await send_otp_func(recipient_detail=recipient_value)  # Change to recipient_email or recipient_mobile accordingly
+    otp_data = send_otp_func(recipient_detail=recipient_value)  # Change to recipient_email or recipient_mobile accordingly
 
     if not otp_data['status']:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=otp_data['message'])
@@ -183,4 +184,26 @@ async def validate_forgotPw_otp(otp:OTPVALIDATE,db:Session=Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No OTP generated")
 
 
+
+@router.post("/testEmail")
+def test_gmail_api(otp:ForGotPw):
+    # print(otp)
+    if otp.mode == "email":
+        recipient_email = otp.email
+
+        try:
+            otp_data = send_email_gmail(recipient_detail=recipient_email)
+            if not otp_data['status']:
+                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=otp_data['Failed to send email'])
+
+            return {"status": f"Successfully sent password reset {'email' if otp.mode == 'email' else 'sms'} to {recipient_email}"}
+
+        except Exception as e:
+             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail=f"{e}")
+
+    else:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Method Not Allowed")
+
+
+    return {"status":200,"message":"Sent email to given email"}
 

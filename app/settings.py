@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     RECIPIENT_NUMBER:str
     DOCKER_HUB_USERNAME:str
     DOCKER_HUB_ACCESS_TOKEN:str
+    SMTP_EMAIL:str
+    SMTP_PASSWORD:str
    
 
 

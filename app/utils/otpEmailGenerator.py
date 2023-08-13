@@ -44,10 +44,7 @@ async def send_otp_email(recipient_detail):
 
 
 
-def calculate_otp_expiry(expires_after=5):
-    current_time = datetime.utcnow()
-    expiry_time = current_time + timedelta(minutes=expires_after)
-    return expiry_time
+
 
 
 

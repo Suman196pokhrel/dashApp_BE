@@ -26,6 +26,7 @@ httpcore==0.17.3
 httptools==0.6.0
 httpx==0.24.1
 idna==3.4
+iniconfig==2.0.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
 jose==1.0.0
@@ -33,8 +34,10 @@ Mako==1.2.4
 MarkupSafe==2.1.3
 multidict==6.0.4
 orjson==3.9.3
+packaging==23.1
 passlib==1.7.4
-psycopg2-binary==2.9.7
+pluggy==1.2.0
+psycopg2==2.9.7
 pyasn1==0.5.0
 pycparser==2.21
 pydantic==2.1.1
@@ -42,6 +45,7 @@ pydantic-extra-types==2.0.0
 pydantic-settings==2.0.2
 pydantic_core==2.4.0
 PyJWT==2.8.0
+pytest==7.4.0
 python-dotenv==1.0.0
 python-jose==3.3.0
 python-multipart==0.0.6
@@ -53,6 +57,7 @@ six==1.16.0
 sniffio==1.3.0
 SQLAlchemy==2.0.19
 starlette==0.27.0
+tomli==2.0.1
 twilio==8.5.0
 typing_extensions==4.7.1
 ujson==5.8.0
