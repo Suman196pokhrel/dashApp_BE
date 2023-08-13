@@ -20,4 +20,4 @@ jobs:
           
       - name: SSH into Droplet and update
         run: |
-          ssh -o StrictHostKeyChecking=no -A root@64.227.166.179 "docker compose -f docker-compose-dev.yml down && cd dashApp_BE/ && git pull origin main && docker compose -f docker-compose-dev.yml up -d"
+          ssh -o StrictHostKeyChecking=no -A root@64.227.166.179 "cd dashApp_BE/ && docker compose -f docker-compose-dev.yml down && cd dashApp_BE/ && git pull origin main && docker compose -f docker-compose-dev.yml up -d"
