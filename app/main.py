@@ -25,4 +25,4 @@ app.include_router(authenticate.router, prefix="/auth",tags=["Auth"])
 
 @app.get("/")
 def root_of_app():
-    return {"status":200,"message":"FASTAPI BACKEND RUNNING INSIDE DOCKER CONTAINER"}
+    return {"status":200,"message":"FASTAPI RUNNING INSIDE DOCKER CONTAINER"}
