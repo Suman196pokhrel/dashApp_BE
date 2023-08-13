@@ -112,7 +112,7 @@ async def forgot_password(otpMode: ForGotPw, db: Session = Depends(get_db)):
 
     existing_otp = db.query(OTP).filter_by(user_id=current_user.id).first()
     
-    otp_data = send_otp_func(recipient_detail=recipient_value)  # Change to recipient_email or recipient_mobile accordingly
+    otp_data = send_otp_func(recipient_detail=recipient_value)
 
     if not otp_data['status']:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=otp_data['message'])
