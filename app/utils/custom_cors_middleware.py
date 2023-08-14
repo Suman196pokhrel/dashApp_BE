@@ -1,5 +1,5 @@
 from fastapi import Request, Response
-from fastapi.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 
 class CustomCorsMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):

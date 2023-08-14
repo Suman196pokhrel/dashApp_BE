@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# app.add_middleware(CustomCorsMiddleware)
+app.add_middleware(CustomCorsMiddleware)
 
 
 # Routers
