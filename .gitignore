@@ -1,5 +1,6 @@
 __pycache__
 adminDashBackend
-# .env
+.env
 Procfile
 # alembic.ini
+readme-ai
