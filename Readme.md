@@ -1,4 +1,4 @@
-# dashApp_BE 🚀 - Backend for dashApp Fullstack Web Application
+# ![dashApp_BE Logo](https://img.shields.io/badge/dashApp_BE-Backend-blue?style=for-the-badge) - Backend for dashApp Fullstack Web Application
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/downloads/release/python-380/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.101%2B-blue?logo=fastapi)](https://fastapi.tiangolo.com/)
