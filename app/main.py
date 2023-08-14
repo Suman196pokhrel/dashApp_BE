@@ -9,7 +9,7 @@ from .utils.custom_cors_middleware import CustomCorsMiddleware
 app = FastAPI()
 
 # allowed origins
-frontEnd = ['http://64.227.166.179:300/',"http://localhost:3000"]
+frontEnd = ['http://64.227.166.179:3000',"http://localhost:3000"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=frontEnd,
