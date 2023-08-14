@@ -1,5 +1,7 @@
 # ![dashApp_BE Logo](https://img.shields.io/badge/dashApp_BE-Backend-blue?style=for-the-badge) - Backend for dashApp Fullstack Web Application
 
+🌐 **Live Preview:** [![Live Preview](https://img.shields.io/badge/Live_Preview-🚀-blue)](http://64.227.166.179:3000)
+
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/downloads/release/python-380/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.101%2B-blue?logo=fastapi)](https://fastapi.tiangolo.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13%2B-blue?logo=postgresql)](https://www.postgresql.org/)
